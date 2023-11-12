@@ -1,0 +1,14 @@
+/Users/cemk/Documents/vscode/CS/basicTextRPG/bin/Debug/net7.0/basicTextRPG
+/Users/cemk/Documents/vscode/CS/basicTextRPG/bin/Debug/net7.0/basicTextRPG.deps.json
+/Users/cemk/Documents/vscode/CS/basicTextRPG/bin/Debug/net7.0/basicTextRPG.runtimeconfig.json
+/Users/cemk/Documents/vscode/CS/basicTextRPG/bin/Debug/net7.0/basicTextRPG.dll
+/Users/cemk/Documents/vscode/CS/basicTextRPG/bin/Debug/net7.0/basicTextRPG.pdb
+/Users/cemk/Documents/vscode/CS/basicTextRPG/obj/Debug/net7.0/basicTextRPG.GeneratedMSBuildEditorConfig.editorconfig
+/Users/cemk/Documents/vscode/CS/basicTextRPG/obj/Debug/net7.0/basicTextRPG.AssemblyInfoInputs.cache
+/Users/cemk/Documents/vscode/CS/basicTextRPG/obj/Debug/net7.0/basicTextRPG.AssemblyInfo.cs
+/Users/cemk/Documents/vscode/CS/basicTextRPG/obj/Debug/net7.0/basicTextRPG.csproj.CoreCompileInputs.cache
+/Users/cemk/Documents/vscode/CS/basicTextRPG/obj/Debug/net7.0/basicTextRPG.dll
+/Users/cemk/Documents/vscode/CS/basicTextRPG/obj/Debug/net7.0/refint/basicTextRPG.dll
+/Users/cemk/Documents/vscode/CS/basicTextRPG/obj/Debug/net7.0/basicTextRPG.pdb
+/Users/cemk/Documents/vscode/CS/basicTextRPG/obj/Debug/net7.0/basicTextRPG.genruntimeconfig.cache
+/Users/cemk/Documents/vscode/CS/basicTextRPG/obj/Debug/net7.0/ref/basicTextRPG.dll
