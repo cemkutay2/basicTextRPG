@@ -46,6 +46,7 @@
             {
                 tempString += $"{i + 1} - " + abilities[i] + "\n";
             }
+            tempString += $"\nCurrent HP: {healthPoints}\tCurrent MP: {manaPoints}\n";
             return tempString;
         }
 
@@ -61,6 +62,7 @@
 
         public int Fireball()
         {
+            manaPoints -= 5;
             int damage = attackDamage + level * 2;
             return damage;
         }
@@ -73,11 +75,13 @@
         public int expDrop;
         public int level;
         public string type;
+        public List<string> abilities = new List<string>();
 
         public Slime(int _level, string _type)
         {
             level = _level;
             type = _type;
+            abilities.Add("Splash");
             healthPoints = 0 + level * 10;
             attackDamage = 0 + level * 3;
             expDrop = 5 + level * 5;
@@ -119,7 +123,9 @@
             NextText();
             bool validEntry = false;
             string? readResult;
+            string playerSelection;
             string playerName = "";
+            int damage;
             SlowType("Give a name to your hero: ");
             do
             {
@@ -161,7 +167,8 @@
                 readResult = Console.ReadLine();
                 if (!string.IsNullOrEmpty(readResult))
                 {
-                    if (readResult == "1")
+                    playerSelection = readResult;
+                    if (playerSelection == "1")
                     {
                         Console.Clear();
                         SlowType($"You dealt {player.Slash()} damage and killed the Slime!");
@@ -183,7 +190,7 @@
             SlowType($"You unlocked a new ability \"Fireball\"!");
             player.abilities.Add("Fireball");
             NextText();
-            SlowType("It is added to your combat options.\n");
+            SlowType("It is added to your combat options. (Costs 5 MP to cast)\n");
             SlowType(player.CombatMenu());
             NextText();
             SlowType("You start walking along the path.");
@@ -202,84 +209,96 @@
             NextText();
             SlowType("Before you can react, it attacks!");
             NextText();
-            SlowType("The Slime used \"Splash\"!"); // slime2.Splash()
+            SlowType($"The Slime used \"{slime2.abilities[0]}\"!");
             NextText();
-            player.healthPoints -= slime2.Splash();
-            SlowType($"It dealt {slime2.Splash()} damage. You now have {player.healthPoints} HP!");
+            damage = slime2.Splash();
+            player.healthPoints -= damage;
+            SlowType($"It dealt {damage} damage. You now have {player.healthPoints} HP!");
             NextText();
 
-            // change this loop pls i beg u ._. do{}while(!validEntry);
+            // combat loop
             do
             {
-                SlowType(player.CombatMenu());
-                readResult = Console.ReadLine();
-                if (!string.IsNullOrEmpty(readResult))
+                // player input loop
+                do
                 {
-                    validEntry = true;
-                    switch (readResult)
+                    validEntry = false;
+                    SlowType(player.CombatMenu());
+                    readResult = Console.ReadLine();
+                    if (!string.IsNullOrEmpty(readResult))
                     {
-                        case "1":
-                            {
-                                Console.Clear();
-                                SlowType($"You used \"{player.abilities[0]}\".");
-                                slime2.healthPoints -= player.Slash();
-                                NextText();
-                                SlowType($"It dealt {player.Slash()} damage.");
-                                NextText();
-                                SlowType($"Slime HP: {slime2.healthPoints}");
-                                NextText();
-                                break;
-                            }
-                        case "2":
-                            {
-                                if (player.manaPoints >= 5)
+                        playerSelection = readResult;
+
+                        switch (playerSelection)
+                        {
+                            case "1":
                                 {
+                                    validEntry = true;
                                     Console.Clear();
-                                    SlowType($"You used {player.abilities[1]}.");
-                                    slime2.healthPoints -= player.Fireball();
+                                    SlowType($"You used \"{player.abilities[0]}\".");
+                                    damage = player.Slash();
+                                    slime2.healthPoints -= damage;
                                     NextText();
-                                    SlowType($"It dealt {player.Fireball()} damage. The Slime has {slime2.healthPoints} HP!");
+                                    SlowType($"It dealt {damage} damage.");
                                     NextText();
                                     SlowType($"Slime HP: {slime2.healthPoints}");
                                     NextText();
                                     break;
                                 }
-                                else
+                            case "2":
+                                {
+                                    if (player.manaPoints >= 5)
+                                    {
+                                        validEntry = true;
+                                        Console.Clear();
+                                        SlowType($"You used {player.abilities[1]}.");
+                                        damage = player.Fireball();
+                                        slime2.healthPoints -= damage;
+                                        NextText();
+                                        SlowType($"It dealt {player.Fireball()} damage. The Slime has {slime2.healthPoints} HP!");
+                                        NextText();
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        Console.Clear();
+                                        SlowType($"You need 5 MP to cast \"{player.abilities[1]}\".");
+                                        NextText();
+                                        break;
+                                    }
+                                }
+                            default:
                                 {
                                     Console.Clear();
-                                    SlowType($"You need 5 MP to cast \"{player.abilities[1]}\".");
-                                    validEntry = false;
-                                    NextText();
+                                    SlowType($"{readResult} is not a valid option.\n");
                                     break;
                                 }
-                            }
 
-                        default:
-                            {
-                                Console.Clear();
-                                SlowType($"{readResult} is not a valid option.\n");
-                                validEntry = false;
-                                break;
-                            }
+                        }
                     }
-                    if (validEntry == false)
-                        continue;
-                    if (slime2.healthPoints <= 0)
-                        continue;
-                    SlowType("The Slime used \"Splash\"!"); // slime2.Splash()
-                    NextText();
-                    player.healthPoints -= slime2.Splash();
-                    SlowType($"It dealt {slime2.Splash()} damage. You now have {player.healthPoints} HP!");
-                    NextText();
-                }
-                else
-                {
-                    Console.Clear();
-                    SlowType("Please enter an option.\n");
-                }
+                    else
+                    {
+                        Console.Clear();
+                        SlowType("Please enter an option.\n");
+                    }
+                } while (validEntry == false);
+
+                if (slime2.healthPoints <= 0)
+                    continue;
+
+                SlowType($"The Slime used \"{slime2.abilities[0]}\"!");
+                NextText();
+                damage = slime2.Splash();
+                player.healthPoints -= damage;
+                SlowType($"It dealt {damage} damage. You now have {player.healthPoints} HP!");
+                NextText();
+
             } while (slime2.healthPoints > 0 && player.healthPoints > 0);
+
+            SlowType("You killed the Slime!"); // no logic for player dying yet (how can you even die?)
+            NextText();
             SlowType(player.GainExp(slime2.expDrop) ? $"Congrats you are now level {player.level}!" : "");
-            SlowType("You killed the Slime!");
+            NextText();
         }
     }
 }
